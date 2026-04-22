@@ -34,6 +34,9 @@ namespace QuanLyQuanNet
                             string hoTen = r["HoTen"].ToString();
                             string linkAnh = r["DuongDanAnh"].ToString();
 
+                            // 👉 ĐIỂM MẤU CHỐT: Ghi nhớ lại user đang đăng nhập (admin, nv1, nv2...)
+                            Form1.TaiKhoanHienTai = user;
+
                             // Bắn dữ liệu sang Form1
                             Form1 mainForm = new Form1(this, quyen, hoTen, linkAnh);
                             mainForm.Show();
@@ -63,6 +66,18 @@ namespace QuanLyQuanNet
         {
 
         }
-    }
     
+    // Sự kiện khi rê chuột vào: Đổi sang màu xanh lơ cho nổi bật
+        private void lblQuenMatKhau_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Vui lòng liên hệ Admin (Sếp Tổng) tại quầy để được cấp lại mật khẩu mới!",
+                            "Hỗ trợ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void QuenMatKhau_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Vui lòng liên hệ Admin (Sếp Tổng) tại quầy để được cấp lại mật khẩu mới!",
+                            "Hỗ trợ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+    }
 }

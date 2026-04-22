@@ -54,6 +54,7 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.btnKhoHang = new Guna.UI2.WinForms.Guna2Button();
             this.btnKhachHang = new Guna.UI2.WinForms.Guna2Button();
             this.btnGiaoCa = new Guna.UI2.WinForms.Guna2Button();
             this.btnGoiMon = new Guna.UI2.WinForms.Guna2Button();
@@ -61,7 +62,7 @@
             this.btnGiaoDich = new Guna.UI2.WinForms.Guna2Button();
             this.btnThongKe = new Guna.UI2.WinForms.Guna2Button();
             this.btnViTriPC = new Guna.UI2.WinForms.Guna2Button();
-            this.btnKhoHang = new Guna.UI2.WinForms.Guna2Button();
+            this.helpProvider1 = new System.Windows.Forms.HelpProvider();
             this.guna2Panel1.SuspendLayout();
             this.guna2Panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvThongKe)).BeginInit();
@@ -370,7 +371,6 @@
             this.flpViTriPC.Name = "flpViTriPC";
             this.flpViTriPC.Size = new System.Drawing.Size(524, 569);
             this.flpViTriPC.TabIndex = 0;
-            this.flpViTriPC.Paint += new System.Windows.Forms.PaintEventHandler(this.flpViTriPC_Paint);
             // 
             // timer1
             // 
@@ -397,6 +397,26 @@
             this.label3.Size = new System.Drawing.Size(145, 23);
             this.label3.TabIndex = 8;
             this.label3.Text = "Solo không lo";
+            // 
+            // btnKhoHang
+            // 
+            this.btnKhoHang.BorderRadius = 15;
+            this.btnKhoHang.BorderStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+            this.btnKhoHang.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.RadioButton;
+            this.btnKhoHang.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnKhoHang.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnKhoHang.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnKhoHang.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnKhoHang.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(122)))), ((int)(((byte)(122)))), ((int)(((byte)(122)))));
+            this.btnKhoHang.Font = new System.Drawing.Font("Bahnschrift Condensed", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
+            this.btnKhoHang.ForeColor = System.Drawing.Color.White;
+            this.btnKhoHang.Image = global::QuanLyQuanNet.Properties.Resources.warehouse;
+            this.btnKhoHang.Location = new System.Drawing.Point(12, 544);
+            this.btnKhoHang.Name = "btnKhoHang";
+            this.btnKhoHang.Size = new System.Drawing.Size(180, 45);
+            this.btnKhoHang.TabIndex = 12;
+            this.btnKhoHang.Text = "Kho Hàng";
+            this.btnKhoHang.Click += new System.EventHandler(this.btnKhoHang_Click);
             // 
             // btnKhachHang
             // 
@@ -430,7 +450,7 @@
             this.btnGiaoCa.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(122)))), ((int)(((byte)(122)))), ((int)(((byte)(122)))));
             this.btnGiaoCa.Font = new System.Drawing.Font("Bahnschrift Condensed", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
             this.btnGiaoCa.ForeColor = System.Drawing.Color.White;
-            this.btnGiaoCa.Image = global::QuanLyQuanNet.Properties.Resources.mechanical_gears_;
+            this.btnGiaoCa.Image = global::QuanLyQuanNet.Properties.Resources.key;
             this.btnGiaoCa.Location = new System.Drawing.Point(12, 481);
             this.btnGiaoCa.Name = "btnGiaoCa";
             this.btnGiaoCa.Size = new System.Drawing.Size(180, 45);
@@ -477,7 +497,6 @@
             this.btnDangXuat.Size = new System.Drawing.Size(160, 33);
             this.btnDangXuat.TabIndex = 6;
             this.btnDangXuat.Text = "Đăng Xuất";
-            this.btnDangXuat.Click += new System.EventHandler(this.guna2Button1_Click);
             // 
             // btnGiaoDich
             // 
@@ -539,24 +558,10 @@
             this.btnViTriPC.Text = "Vị Trí PC";
             this.btnViTriPC.Click += new System.EventHandler(this.btnViTriPC_Click);
             // 
-            // btnKhoHang
+            // helpProvider1
             // 
-            this.btnKhoHang.BorderRadius = 15;
-            this.btnKhoHang.BorderStyle = System.Drawing.Drawing2D.DashStyle.Dash;
-            this.btnKhoHang.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.RadioButton;
-            this.btnKhoHang.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.btnKhoHang.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.btnKhoHang.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btnKhoHang.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btnKhoHang.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(122)))), ((int)(((byte)(122)))), ((int)(((byte)(122)))));
-            this.btnKhoHang.Font = new System.Drawing.Font("Bahnschrift Condensed", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(163)));
-            this.btnKhoHang.ForeColor = System.Drawing.Color.White;
-            this.btnKhoHang.Location = new System.Drawing.Point(12, 544);
-            this.btnKhoHang.Name = "btnKhoHang";
-            this.btnKhoHang.Size = new System.Drawing.Size(180, 45);
-            this.btnKhoHang.TabIndex = 12;
-            this.btnKhoHang.Text = "Kho Hàng";
-            this.btnKhoHang.Click += new System.EventHandler(this.btnKhoHang_Click);
+            this.helpProvider1.HelpNamespace = "https://github.com/phudth235733-gif/DTH235733_LyBaPhu_LAPTRINHQUANLY_DoAnGiaiDoan" +
+    "10.git";
             // 
             // Form1
             // 
@@ -577,6 +582,7 @@
             this.Controls.Add(this.guna2Panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
+            this.helpProvider1.SetShowHelp(this, true);
             this.Text = "HyperScore";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -620,6 +626,7 @@
         private Guna.UI2.WinForms.Guna2Button btnGiaoCa;
         private Guna.UI2.WinForms.Guna2Button btnKhachHang;
         private Guna.UI2.WinForms.Guna2Button btnKhoHang;
+        private System.Windows.Forms.HelpProvider helpProvider1;
     }
 }
 

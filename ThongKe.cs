@@ -32,8 +32,6 @@ namespace QuanLyQuanNet
         {
             CauHinhGiaoDienToi();
 
-
-
             // 1. Cài đặt các mốc thời gian cho cbmThangNay
             cbmThangNay.Items.Clear();
             cbmThangNay.Items.AddRange(new string[] { "Hôm nay", "Tuần này", "Tháng này", "Tháng trước", "Tất cả" });
@@ -43,6 +41,11 @@ namespace QuanLyQuanNet
 
             // Cập nhật text cho 3 nút ở dưới (Theo data Form1)
             CapNhatThongTin3Nut();
+
+            // TUYỆT CHIÊU KÉO 3 NÚT LÊN TRÊN BIỂU ĐỒ NẾU BỊ ĐÈ
+            btnDoanhThu.BringToFront();
+            btnPCHD.BringToFront();
+            btnMember.BringToFront();
         }
 
         // ==============================================================
@@ -149,9 +152,11 @@ namespace QuanLyQuanNet
 
             // Xóa dữ liệu cũ, chuẩn bị vẽ nét mới
             chartThongKe.Series.Clear();
-            chartThongKe.Series.Add("Data");
 
-            var series = chartThongKe.Series["Data"];
+            // ĐÃ SỬA LỖI MẤT CHÚ THÍCH: Gán tên đàng hoàng thay vì chữ "Data"
+            chartThongKe.Series.Add("Doanh Thu (VNĐ)");
+
+            var series = chartThongKe.Series[0]; // Gọi ra bằng Index
             series.ChartType = SeriesChartType.Area;
             series.Color = Color.FromArgb(70, Color.Lime);
             series.BorderColor = Color.Lime;
@@ -181,7 +186,7 @@ namespace QuanLyQuanNet
         }
 
         // ==============================================================
-        // CÁC HÀM CŨ (Đã giữ lại để không hỏng code của ní)
+        // CẤU HÌNH GIAO DIỆN (ĐÃ PHỤC HỒI CHÚ THÍCH)
         // ==============================================================
         private void CauHinhGiaoDienToi()
         {
@@ -190,7 +195,14 @@ namespace QuanLyQuanNet
 
             chartThongKe.BackColor = mauNen;
             chartThongKe.ChartAreas[0].BackColor = mauNen;
-            chartThongKe.Legends.Clear();
+
+            // TUI ĐÃ GỠ LỆNH XÓA CHÚ THÍCH, ĐỔI THÀNH NỘI DUNG NÀY ĐỂ HIỆN CHỮ MÀU TRẮNG:
+            if (chartThongKe.Legends.Count > 0)
+            {
+                chartThongKe.Legends[0].BackColor = mauNen;
+                chartThongKe.Legends[0].ForeColor = Color.White;
+            }
+
             chartThongKe.BorderlineColor = mauNen;
 
             var chartArea = chartThongKe.ChartAreas[0];
@@ -239,13 +251,16 @@ namespace QuanLyQuanNet
                 MessageBox.Show("Lỗi lấy thông tin 3 nút: " + ex.Message);
             }
         }
+
         // Hàm vẽ biểu đồ theo Giờ (Dùng cho 3 nút ở dưới)
         private void VeBieuDo<T>(string tieuDe, Dictionary<int, T> duLieu, Color mauSac)
         {
             chartThongKe.Series.Clear();
-            chartThongKe.Series.Add("Data");
 
-            var series = chartThongKe.Series["Data"];
+            // ĐÃ SỬA LỖI MẤT CHÚ THÍCH:
+            chartThongKe.Series.Add(tieuDe);
+
+            var series = chartThongKe.Series[0];
             series.ChartType = SeriesChartType.Area;
             series.Color = Color.FromArgb(70, mauSac);
             series.BorderColor = mauSac;
@@ -268,11 +283,6 @@ namespace QuanLyQuanNet
             }
         }
 
-        // Hàm trống để chống lỗi Designer
-        private void dgvThongKeChiTiet_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-        }
-
         // Vẫn giữ lại sự kiện tự chọn tay trên lịch
         private void dtpTuNgay_ValueChanged(object sender, EventArgs e) => LoadDuLieuThongKe();
         private void dtpDenNgay_ValueChanged(object sender, EventArgs e) => LoadDuLieuThongKe();
@@ -280,9 +290,6 @@ namespace QuanLyQuanNet
         // Nút Lọc (Nếu ní có bấm Lọc thủ công)
         private void btnLoc_Click(object sender, EventArgs e)
         {
-            // Chèn dòng này vào để test
-            MessageBox.Show($"Đang tiến hành lọc từ ngày {dtpTuNgay.Value.ToString("dd/MM/yyyy")} đến {dtpDenNgay.Value.ToString("dd/MM/yyyy")}", "Kểm tra nút");
-
             LoadDuLieuThongKe();
         }
 
@@ -297,7 +304,6 @@ namespace QuanLyQuanNet
 
             using (MySqlConnection conn = new MySqlConnection(chuoiKetNoi))
             {
-                // Lấy chi tiết để in/xuất excel
                 string sql = @"SELECT ThoiGian AS 'Thời Gian', MoTa AS 'Mô Tả Giao Dịch', 
                                       ThanhVien AS 'Người Dùng', ThanhToan AS 'Số Tiền (VNĐ)', Nguon AS 'Nguồn Thu'
                                FROM GiaoDich 
@@ -314,11 +320,10 @@ namespace QuanLyQuanNet
         }
 
         // ==============================================================
-        // 1. CHỨC NĂNG XUẤT EXCEL (CHUYÊN NGHIỆP) - ĐÃ FIX EPPLUS 8+
+        // 1. CHỨC NĂNG XUẤT EXCEL
         // ==============================================================
         private void btnXuatExcel_Click(object sender, EventArgs e)
         {
-            // TUI ĐÃ FIX CHỖ NÀY CHO NÍ: Dùng SetNonCommercialPersonal thay vì kiểu cũ
             ExcelPackage.License.SetNonCommercialPersonal("QuanLyQuanNet");
 
             DataTable dt = LayChiTietGiaoDich();
@@ -336,13 +341,12 @@ namespace QuanLyQuanNet
             {
                 try
                 {
-                    this.Cursor = Cursors.WaitCursor; // Đổi con trỏ chuột thành hình chờ
+                    this.Cursor = Cursors.WaitCursor;
 
                     using (ExcelPackage pck = new ExcelPackage())
                     {
                         ExcelWorksheet ws = pck.Workbook.Worksheets.Add("Doanh Thu");
 
-                        // 1. Ghi Tiêu đề Báo Cáo
                         ws.Cells["A1:E1"].Merge = true;
                         ws.Cells["A1"].Value = "BÁO CÁO CHI TIẾT DOANH THU QUÁN NET";
                         ws.Cells["A1"].Style.Font.Bold = true;
@@ -354,18 +358,16 @@ namespace QuanLyQuanNet
                         ws.Cells["A2"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
                         ws.Cells["A2"].Style.Font.Italic = true;
 
-                        // 2. Đổ Headers (Tên cột)
                         int startRow = 4;
                         for (int i = 0; i < dt.Columns.Count; i++)
                         {
                             ws.Cells[startRow, i + 1].Value = dt.Columns[i].ColumnName;
                             ws.Cells[startRow, i + 1].Style.Font.Bold = true;
                             ws.Cells[startRow, i + 1].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                            ws.Cells[startRow, i + 1].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(70, 130, 180)); // Màu nền cột xanh thép
+                            ws.Cells[startRow, i + 1].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(70, 130, 180));
                             ws.Cells[startRow, i + 1].Style.Font.Color.SetColor(Color.White);
                         }
 
-                        // 3. Đổ Dữ liệu
                         int row = startRow + 1;
                         double tongTien = 0;
                         foreach (DataRow dr in dt.Rows)
@@ -380,23 +382,20 @@ namespace QuanLyQuanNet
                             row++;
                         }
 
-                        // 4. Dòng Tổng Cộng
                         ws.Cells[row, 3].Value = "TỔNG CỘNG:";
                         ws.Cells[row, 3].Style.Font.Bold = true;
                         ws.Cells[row, 4].Value = tongTien;
                         ws.Cells[row, 4].Style.Font.Bold = true;
                         ws.Cells[row, 4].Style.Font.Color.SetColor(Color.Red);
 
-                        // 5. Định dạng (Format) chuyên nghiệp
-                        ws.Cells[startRow, 4, row, 4].Style.Numberformat.Format = "#,##0"; // Cột tiền
+                        ws.Cells[startRow, 4, row, 4].Style.Numberformat.Format = "#,##0";
                         ws.Cells[startRow, 1, row, 5].Style.Border.Top.Style = ExcelBorderStyle.Thin;
                         ws.Cells[startRow, 1, row, 5].Style.Border.Left.Style = ExcelBorderStyle.Thin;
                         ws.Cells[startRow, 1, row, 5].Style.Border.Right.Style = ExcelBorderStyle.Thin;
                         ws.Cells[startRow, 1, row, 5].Style.Border.Bottom.Style = ExcelBorderStyle.Thin;
 
-                        ws.Cells.AutoFitColumns(); // Tự động độ rộng cột
+                        ws.Cells.AutoFitColumns();
 
-                        // Lưu file
                         FileInfo fi = new FileInfo(sfd.FileName);
                         pck.SaveAs(fi);
                     }
@@ -408,7 +407,7 @@ namespace QuanLyQuanNet
                 }
                 finally
                 {
-                    this.Cursor = Cursors.Default; // Trả lại chuột bình thường
+                    this.Cursor = Cursors.Default;
                 }
             }
         }
@@ -426,16 +425,15 @@ namespace QuanLyQuanNet
             }
 
             PrintDocument printDoc = new PrintDocument();
-            printDoc.PrintPage += (s, ev) => PrintDoc_PrintPage(s, ev, dt); // Gọi hàm vẽ giấy in
+            printDoc.PrintPage += (s, ev) => PrintDoc_PrintPage(s, ev, dt);
 
             PrintPreviewDialog previewDialog = new PrintPreviewDialog();
             previewDialog.Document = printDoc;
             previewDialog.Width = 800;
             previewDialog.Height = 600;
-            previewDialog.ShowDialog(); // Mở bảng xem trước
+            previewDialog.ShowDialog();
         }
 
-        // Hàm thiết kế trang in (Dùng bút vẽ lên tờ giấy trắng)
         private void PrintDoc_PrintPage(object sender, PrintPageEventArgs e, DataTable dt)
         {
             Graphics g = e.Graphics;
@@ -447,7 +445,6 @@ namespace QuanLyQuanNet
             int yPos = 40;
             int margin = 50;
 
-            // 1. Vẽ Tiêu đề quán
             g.DrawString("G-CAFE INTERNET ESPORTS", fontDam, brush, margin, yPos);
             yPos += 30;
             g.DrawString("BÁO CÁO DOANH THU HOẠT ĐỘNG", fontTieuDe, brush, margin + 150, yPos);
@@ -455,7 +452,6 @@ namespace QuanLyQuanNet
             g.DrawString($"Thời gian: {dtpTuNgay.Value.ToString("dd/MM/yyyy")} đến {dtpDenNgay.Value.ToString("dd/MM/yyyy")}", fontThuong, brush, margin + 200, yPos);
             yPos += 50;
 
-            // 2. Vẽ Tiêu đề cột bảng
             g.DrawLine(Pens.Black, margin, yPos, e.PageBounds.Width - margin, yPos);
             yPos += 10;
             g.DrawString("Thời gian", fontDam, brush, margin, yPos);
@@ -467,13 +463,12 @@ namespace QuanLyQuanNet
             g.DrawLine(Pens.Black, margin, yPos, e.PageBounds.Width - margin, yPos);
             yPos += 10;
 
-            // 3. Vẽ dữ liệu từng dòng
             double tongTien = 0;
             foreach (DataRow row in dt.Rows)
             {
                 string thoiGian = Convert.ToDateTime(row["Thời Gian"]).ToString("dd/MM HH:mm");
                 string moTa = row["Mô Tả Giao Dịch"].ToString();
-                if (moTa.Length > 20) moTa = moTa.Substring(0, 17) + "..."; // Cắt ngắn nếu quá dài
+                if (moTa.Length > 20) moTa = moTa.Substring(0, 17) + "...";
 
                 string nguoiDung = row["Người Dùng"].ToString();
                 string nguon = row["Nguồn Thu"].ToString();
@@ -488,15 +483,13 @@ namespace QuanLyQuanNet
                 tongTien += tien;
                 yPos += 30;
 
-                // Nếu in dài quá hết 1 trang (Giả sử cơ bản 1 trang)
                 if (yPos > e.PageBounds.Height - 100)
                 {
                     g.DrawString("... (Xem tiếp trang sau) ...", fontThuong, brush, margin + 250, yPos);
-                    break; // Bản cơ bản tui viết 1 trang. Ní muốn in nhiều trang thì cần nâng cao thêm biến đếm.
+                    break;
                 }
             }
 
-            // 4. Vẽ Tổng kết
             yPos += 10;
             g.DrawLine(Pens.Black, margin, yPos, e.PageBounds.Width - margin, yPos);
             yPos += 10;
@@ -504,24 +497,6 @@ namespace QuanLyQuanNet
             g.DrawString(tongTien.ToString("#,##0") + " VNĐ", fontDam, Brushes.Red, margin + 600, yPos);
         }
 
-        private void chartThongKe_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnMember_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnDoanhThu_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void btnPCHD_Click(object sender, EventArgs e)
-        {
-
-        }
+        // Tui đã xóa mấy cái hàm Click rỗng ở dưới cùng cho code nó gọn và không bị lỗi Designer nha!
     }
 }

@@ -290,6 +290,7 @@
             // 
             // btnThanhToan
             // 
+            this.btnThanhToan.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnThanhToan.BorderRadius = 15;
             this.btnThanhToan.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.RadioButton;
             this.btnThanhToan.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
@@ -299,7 +300,7 @@
             this.btnThanhToan.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(122)))), ((int)(((byte)(122)))), ((int)(((byte)(122)))));
             this.btnThanhToan.Font = new System.Drawing.Font("Bahnschrift Condensed", 10.2F);
             this.btnThanhToan.ForeColor = System.Drawing.Color.White;
-            this.btnThanhToan.Location = new System.Drawing.Point(608, 475);
+            this.btnThanhToan.Location = new System.Drawing.Point(516, 544);
             this.btnThanhToan.Name = "btnThanhToan";
             this.btnThanhToan.Size = new System.Drawing.Size(180, 45);
             this.btnThanhToan.TabIndex = 9;
@@ -308,6 +309,7 @@
             // 
             // btnHuyDon
             // 
+            this.btnHuyDon.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnHuyDon.BorderRadius = 15;
             this.btnHuyDon.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.RadioButton;
             this.btnHuyDon.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
