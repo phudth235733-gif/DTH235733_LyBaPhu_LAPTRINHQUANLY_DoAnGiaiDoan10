@@ -1,6 +1,6 @@
 # QuanLyQuanNet
 
-Ứng dụng quản lý quán net bằng WinForms (.NET Framework 4.8) với MySQL làm cơ sở dữ liệu.
+Ứng dụng quản lý quán net bằng WinForms
 
 ## Giới thiệu
 
@@ -104,4 +104,3 @@
 
 ---
 
-Nếu cần hướng dẫn chi tiết hơn cho một chức năng cụ thể, hãy cho biết chức năng muốn mô tả.
