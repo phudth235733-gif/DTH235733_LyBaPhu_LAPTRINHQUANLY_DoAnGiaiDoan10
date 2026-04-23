@@ -55,8 +55,24 @@ namespace QuanLyQuanNet
                 using (MySqlConnection conn = new MySqlConnection("Server=localhost;Database=QuanLyQuanNet;Uid=root;Pwd=123456;"))
                 {
                     conn.Open();
-                    MySqlCommand cmd = new MySqlCommand("ALTER TABLE TrangThaiMay ADD COLUMN TienDichVu DOUBLE DEFAULT 0", conn);
-                    cmd.ExecuteNonQuery();
+
+                    // 1. Tự động thêm cột TienDichVu (nếu thiếu)
+                    try
+                    {
+                        MySqlCommand cmd1 = new MySqlCommand("ALTER TABLE TrangThaiMay ADD COLUMN TienDichVu DOUBLE DEFAULT 0", conn);
+                        cmd1.ExecuteNonQuery();
+                    }
+                    catch { }
+
+                    // 2. ĐÂY LÀ KHÚC FIX LỖI 3 GIÂY TẮT MÁY: 
+                    // Tự động bơm đủ 30 máy vào Database (Dùng INSERT IGNORE để nếu có rồi thì nó bỏ qua, chưa có thì nó tạo mới)
+                    for (int i = 1; i <= 30; i++)
+                    {
+                        string tenMay = "PC " + i.ToString("00");
+                        MySqlCommand cmd2 = new MySqlCommand("INSERT IGNORE INTO TrangThaiMay (TenMay, TrangThai, TienTraTruoc, TienDichVu) VALUES (@ten, 'Trong', 0, 0)", conn);
+                        cmd2.Parameters.AddWithValue("@ten", tenMay);
+                        cmd2.ExecuteNonQuery();
+                    }
                 }
             }
             catch { }

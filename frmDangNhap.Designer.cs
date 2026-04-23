@@ -132,6 +132,7 @@
             this.Controls.Add(this.txtTaiKhoan);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmDangNhap";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Đăng Nhập Tài Khoản ";
             this.ResumeLayout(false);
             this.PerformLayout();

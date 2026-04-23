@@ -47,8 +47,20 @@
             this.btnDoUong = new Guna.UI2.WinForms.Guna2Button();
             this.btnThanhToan = new Guna.UI2.WinForms.Guna2Button();
             this.btnHuyDon = new Guna.UI2.WinForms.Guna2Button();
+            this.btnThemMon = new Guna.UI2.WinForms.Guna2Button();
+            this.guna2GroupBox2 = new Guna.UI2.WinForms.Guna2GroupBox();
+            this.cmbDanhMuc = new Guna.UI2.WinForms.Guna2ComboBox();
+            this.txtGiaTien = new Guna.UI2.WinForms.Guna2TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.picUpHinh = new Guna.UI2.WinForms.Guna2PictureBox();
+            this.txtTenMon = new Guna.UI2.WinForms.Guna2TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDonHang)).BeginInit();
             this.guna2GroupBox1.SuspendLayout();
+            this.guna2GroupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picUpHinh)).BeginInit();
             this.SuspendLayout();
             // 
             // flpMenu
@@ -59,7 +71,7 @@
             this.flpMenu.AutoScroll = true;
             this.flpMenu.Location = new System.Drawing.Point(210, 21);
             this.flpMenu.Name = "flpMenu";
-            this.flpMenu.Size = new System.Drawing.Size(226, 568);
+            this.flpMenu.Size = new System.Drawing.Size(361, 370);
             this.flpMenu.TabIndex = 0;
             // 
             // dgvDonHang
@@ -158,9 +170,9 @@
             this.guna2GroupBox1.Controls.Add(this.dgvDonHang);
             this.guna2GroupBox1.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.guna2GroupBox1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
-            this.guna2GroupBox1.Location = new System.Drawing.Point(469, 21);
+            this.guna2GroupBox1.Location = new System.Drawing.Point(604, 21);
             this.guna2GroupBox1.Name = "guna2GroupBox1";
-            this.guna2GroupBox1.Size = new System.Drawing.Size(502, 438);
+            this.guna2GroupBox1.Size = new System.Drawing.Size(502, 487);
             this.guna2GroupBox1.TabIndex = 2;
             this.guna2GroupBox1.Text = "Đơn Hàng Hiện Tại:";
             // 
@@ -300,7 +312,7 @@
             this.btnThanhToan.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(122)))), ((int)(((byte)(122)))), ((int)(((byte)(122)))));
             this.btnThanhToan.Font = new System.Drawing.Font("Bahnschrift Condensed", 10.2F);
             this.btnThanhToan.ForeColor = System.Drawing.Color.White;
-            this.btnThanhToan.Location = new System.Drawing.Point(516, 544);
+            this.btnThanhToan.Location = new System.Drawing.Point(651, 593);
             this.btnThanhToan.Name = "btnThanhToan";
             this.btnThanhToan.Size = new System.Drawing.Size(180, 45);
             this.btnThanhToan.TabIndex = 9;
@@ -319,18 +331,171 @@
             this.btnHuyDon.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(122)))), ((int)(((byte)(122)))), ((int)(((byte)(122)))));
             this.btnHuyDon.Font = new System.Drawing.Font("Bahnschrift Condensed", 10.2F);
             this.btnHuyDon.ForeColor = System.Drawing.Color.White;
-            this.btnHuyDon.Location = new System.Drawing.Point(765, 544);
+            this.btnHuyDon.Location = new System.Drawing.Point(900, 593);
             this.btnHuyDon.Name = "btnHuyDon";
             this.btnHuyDon.Size = new System.Drawing.Size(180, 45);
             this.btnHuyDon.TabIndex = 10;
             this.btnHuyDon.Text = "Hủy Đơn";
             this.btnHuyDon.Click += new System.EventHandler(this.btnHuyDon_Click);
             // 
+            // btnThemMon
+            // 
+            this.btnThemMon.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnThemMon.BackColor = System.Drawing.Color.White;
+            this.btnThemMon.BorderRadius = 15;
+            this.btnThemMon.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.RadioButton;
+            this.btnThemMon.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnThemMon.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnThemMon.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnThemMon.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnThemMon.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(122)))), ((int)(((byte)(122)))), ((int)(((byte)(122)))));
+            this.btnThemMon.Font = new System.Drawing.Font("Bahnschrift Condensed", 10.2F);
+            this.btnThemMon.ForeColor = System.Drawing.Color.White;
+            this.btnThemMon.Location = new System.Drawing.Point(318, 190);
+            this.btnThemMon.Name = "btnThemMon";
+            this.btnThemMon.Size = new System.Drawing.Size(106, 45);
+            this.btnThemMon.TabIndex = 11;
+            this.btnThemMon.Text = "Thêm Món";
+            this.btnThemMon.Click += new System.EventHandler(this.btnThemMon_Click);
+            // 
+            // guna2GroupBox2
+            // 
+            this.guna2GroupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.guna2GroupBox2.Controls.Add(this.cmbDanhMuc);
+            this.guna2GroupBox2.Controls.Add(this.txtGiaTien);
+            this.guna2GroupBox2.Controls.Add(this.label5);
+            this.guna2GroupBox2.Controls.Add(this.picUpHinh);
+            this.guna2GroupBox2.Controls.Add(this.txtTenMon);
+            this.guna2GroupBox2.Controls.Add(this.label4);
+            this.guna2GroupBox2.Controls.Add(this.label3);
+            this.guna2GroupBox2.Controls.Add(this.label2);
+            this.guna2GroupBox2.Controls.Add(this.btnThemMon);
+            this.guna2GroupBox2.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.guna2GroupBox2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(125)))), ((int)(((byte)(137)))), ((int)(((byte)(149)))));
+            this.guna2GroupBox2.Location = new System.Drawing.Point(12, 374);
+            this.guna2GroupBox2.Name = "guna2GroupBox2";
+            this.guna2GroupBox2.Size = new System.Drawing.Size(438, 289);
+            this.guna2GroupBox2.TabIndex = 11;
+            this.guna2GroupBox2.Text = "guna2GroupBox2";
+            // 
+            // cmbDanhMuc
+            // 
+            this.cmbDanhMuc.BackColor = System.Drawing.Color.Transparent;
+            this.cmbDanhMuc.BorderRadius = 15;
+            this.cmbDanhMuc.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cmbDanhMuc.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbDanhMuc.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.cmbDanhMuc.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.cmbDanhMuc.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.cmbDanhMuc.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(88)))), ((int)(((byte)(112)))));
+            this.cmbDanhMuc.ItemHeight = 30;
+            this.cmbDanhMuc.Location = new System.Drawing.Point(110, 92);
+            this.cmbDanhMuc.Name = "cmbDanhMuc";
+            this.cmbDanhMuc.Size = new System.Drawing.Size(194, 36);
+            this.cmbDanhMuc.TabIndex = 20;
+            // 
+            // txtGiaTien
+            // 
+            this.txtGiaTien.BackColor = System.Drawing.Color.White;
+            this.txtGiaTien.BorderRadius = 15;
+            this.txtGiaTien.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.txtGiaTien.DefaultText = "";
+            this.txtGiaTien.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.txtGiaTien.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.txtGiaTien.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.txtGiaTien.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.txtGiaTien.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.txtGiaTien.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.txtGiaTien.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.txtGiaTien.Location = new System.Drawing.Point(110, 135);
+            this.txtGiaTien.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.txtGiaTien.Name = "txtGiaTien";
+            this.txtGiaTien.PlaceholderText = "";
+            this.txtGiaTien.SelectedText = "";
+            this.txtGiaTien.Size = new System.Drawing.Size(194, 25);
+            this.txtGiaTien.TabIndex = 19;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.BackColor = System.Drawing.Color.White;
+            this.label5.Font = new System.Drawing.Font("Bahnschrift Condensed", 10.2F);
+            this.label5.Location = new System.Drawing.Point(31, 135);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(57, 21);
+            this.label5.TabIndex = 18;
+            this.label5.Text = "Giá Tiền:";
+            // 
+            // picUpHinh
+            // 
+            this.picUpHinh.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.picUpHinh.ImageRotate = 0F;
+            this.picUpHinh.Location = new System.Drawing.Point(110, 180);
+            this.picUpHinh.Name = "picUpHinh";
+            this.picUpHinh.Size = new System.Drawing.Size(182, 106);
+            this.picUpHinh.TabIndex = 17;
+            this.picUpHinh.TabStop = false;
+            // 
+            // txtTenMon
+            // 
+            this.txtTenMon.BackColor = System.Drawing.Color.White;
+            this.txtTenMon.BorderRadius = 15;
+            this.txtTenMon.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.txtTenMon.DefaultText = "";
+            this.txtTenMon.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.txtTenMon.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.txtTenMon.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.txtTenMon.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.txtTenMon.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.txtTenMon.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.txtTenMon.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.txtTenMon.Location = new System.Drawing.Point(110, 55);
+            this.txtTenMon.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.txtTenMon.Name = "txtTenMon";
+            this.txtTenMon.PlaceholderText = "";
+            this.txtTenMon.SelectedText = "";
+            this.txtTenMon.Size = new System.Drawing.Size(194, 25);
+            this.txtTenMon.TabIndex = 15;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.BackColor = System.Drawing.Color.White;
+            this.label4.Font = new System.Drawing.Font("Bahnschrift Condensed", 10.2F);
+            this.label4.Location = new System.Drawing.Point(34, 199);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(54, 21);
+            this.label4.TabIndex = 14;
+            this.label4.Text = "Up Hình:";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.BackColor = System.Drawing.Color.White;
+            this.label3.Font = new System.Drawing.Font("Bahnschrift Condensed", 10.2F);
+            this.label3.Location = new System.Drawing.Point(22, 92);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(66, 21);
+            this.label3.TabIndex = 13;
+            this.label3.Text = "Danh Mục:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.Color.White;
+            this.label2.Font = new System.Drawing.Font("Bahnschrift Condensed", 10.2F);
+            this.label2.Location = new System.Drawing.Point(31, 55);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(56, 21);
+            this.label2.TabIndex = 12;
+            this.label2.Text = "Tên món";
+            // 
             // frmDichVu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(983, 629);
+            this.ClientSize = new System.Drawing.Size(1118, 678);
+            this.Controls.Add(this.guna2GroupBox2);
             this.Controls.Add(this.btnHuyDon);
             this.Controls.Add(this.btnThanhToan);
             this.Controls.Add(this.btnDoDung);
@@ -347,6 +512,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvDonHang)).EndInit();
             this.guna2GroupBox1.ResumeLayout(false);
             this.guna2GroupBox1.PerformLayout();
+            this.guna2GroupBox2.ResumeLayout(false);
+            this.guna2GroupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picUpHinh)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -369,5 +537,15 @@
         private Guna.UI2.WinForms.Guna2Button btnComBo;
         private Guna.UI2.WinForms.Guna2Button btnThanhToan;
         private Guna.UI2.WinForms.Guna2Button btnHuyDon;
+        private Guna.UI2.WinForms.Guna2Button btnThemMon;
+        private Guna.UI2.WinForms.Guna2GroupBox guna2GroupBox2;
+        private Guna.UI2.WinForms.Guna2PictureBox picUpHinh;
+        private Guna.UI2.WinForms.Guna2TextBox txtTenMon;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
+        private Guna.UI2.WinForms.Guna2TextBox txtGiaTien;
+        private System.Windows.Forms.Label label5;
+        private Guna.UI2.WinForms.Guna2ComboBox cmbDanhMuc;
     }
 }

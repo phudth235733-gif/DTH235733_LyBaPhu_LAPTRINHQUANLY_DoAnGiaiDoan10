@@ -13,12 +13,18 @@ namespace QuanLyQuanNet
         string mayGoiMenu = "";
         double tongTienDonHang = 0;
 
+        // BỘ NHỚ VĨNH CỬU (static): Giữ nguyên món mới kể cả khi tắt form Dịch Vụ chuyển sang form khác!
+        public static List<(string Ten, double Gia, string DanhMuc, Image Hinh)> danhSachMonTuThem = new List<(string, double, string, Image)>();
+
         public frmDichVu(string tenMay = "")
         {
             InitializeComponent();
             mayGoiMenu = tenMay;
             cmbSelectPC.DropDown += cmbSelectPC_DropDown;
             btnThanhToan.Text = "Xác Nhận Order";
+
+            picUpHinh.Click += picUpHinh_Click;
+            btnThemMon.Click += btnThemMon_Click;
         }
 
         private void frmDichVu_Load(object sender, EventArgs e)
@@ -29,6 +35,12 @@ namespace QuanLyQuanNet
                 if (!cmbSelectPC.Items.Contains(mayGoiMenu)) cmbSelectPC.Items.Add(mayGoiMenu);
                 cmbSelectPC.Text = mayGoiMenu;
             }
+
+            // ÉP CỨNG DANH MỤC CHO KHỚP VỚI CÁC NÚT BÊN TRÁI
+            cmbDanhMuc.Items.Clear();
+            cmbDanhMuc.Items.AddRange(new string[] { "Đồ Uống", "Đồ Ăn", "Đồ Dùng", "Nạp Thẻ", "Combo" });
+            cmbDanhMuc.SelectedIndex = 0;
+
             LoadMenuThucAn("Đồ Uống");
         }
 
@@ -54,6 +66,7 @@ namespace QuanLyQuanNet
             catch { }
         }
 
+        // ĐẢM BẢO TÊN DANH MỤC Ở ĐÂY KHỚP 100% VỚI CÁI COMBOBOX Ở TRÊN
         private void btnDoUong_Click(object sender, EventArgs e) => LoadMenuThucAn("Đồ Uống");
         private void btnDoAn_Click(object sender, EventArgs e) => LoadMenuThucAn("Đồ Ăn");
         private void btnDoDung_Click(object sender, EventArgs e) => LoadMenuThucAn("Đồ Dùng");
@@ -63,42 +76,132 @@ namespace QuanLyQuanNet
         private void LoadMenuThucAn(string danhMuc)
         {
             flpMenu.Controls.Clear();
-            List<(string Ten, double Gia, string TenHinh)> dsMon = new List<(string, double, string)>();
+            List<(string Ten, double Gia, string TenHinh)> dsMonMacDinh = new List<(string, double, string)>();
 
             switch (danhMuc)
             {
                 case "Đồ Uống":
-                    dsMon.Add(("Sting Đỏ", 10000, "sting")); dsMon.Add(("Bò Húc", 15000, "BoHuc"));
-                    dsMon.Add(("Pepsi", 10000, "Pepsi")); dsMon.Add(("Nước Suối", 5000, "water")); dsMon.Add(("Trà Đá", 2000, "TraDa")); break;
+                    dsMonMacDinh.Add(("Sting Đỏ", 10000, "sting")); dsMonMacDinh.Add(("Bò Húc", 15000, "BoHuc"));
+                    dsMonMacDinh.Add(("Pepsi", 10000, "Pepsi")); dsMonMacDinh.Add(("Nước Suối", 5000, "water")); dsMonMacDinh.Add(("Trà Đá", 2000, "TraDa")); break;
                 case "Đồ Ăn":
-                    dsMon.Add(("Mì Xào Trứng", 20000, "MiXao")); dsMon.Add(("Cơm Rang", 35000, "ComRang")); dsMon.Add(("Xúc Xích", 10000, "XucXich")); break;
+                    dsMonMacDinh.Add(("Mì Xào Trứng", 20000, "MiXao")); dsMonMacDinh.Add(("Cơm Rang", 35000, "ComRang")); dsMonMacDinh.Add(("Xúc Xích", 10000, "XucXich")); break;
                 case "Đồ Dùng":
-                    dsMon.Add(("Khăn Lạnh", 2000, "KhanLanh")); dsMon.Add(("Bật Lửa", 5000, "BatLua")); break;
+                    dsMonMacDinh.Add(("Khăn Lạnh", 2000, "KhanLanh")); dsMonMacDinh.Add(("Bật Lửa", 5000, "BatLua")); break;
                 case "Nạp Thẻ":
-                    dsMon.Add(("Thẻ 20K", 20000, "The20k")); dsMon.Add(("Thẻ 50K", 50000, "The50k")); dsMon.Add(("Thẻ 100K", 100000, "The50k")); break;
+                    dsMonMacDinh.Add(("Thẻ 20K", 20000, "The20k")); dsMonMacDinh.Add(("Thẻ 50K", 50000, "The50k")); dsMonMacDinh.Add(("Thẻ 100K", 100000, "The50k")); break;
                 case "Combo":
-                    dsMon.Add(("Mì + Sting", 28000, "ComBo1")); dsMon.Add(("Trà đá 4 ống hút", 8000, "ComBo2")); dsMon.Add(("Sting 4 tẩy đá", 16000, "ComBo3")); break;
+                    dsMonMacDinh.Add(("Mì + Sting", 28000, "ComBo1")); dsMonMacDinh.Add(("Trà đá 4 ống hút", 8000, "ComBo2")); dsMonMacDinh.Add(("Sting 4 tẩy đá", 16000, "ComBo3")); break;
             }
 
-            foreach (var mon in dsMon)
+            // 1. VẼ CÁC MÓN MẶC ĐỊNH
+            foreach (var mon in dsMonMacDinh)
             {
-                Guna2Button btnMon = new Guna2Button() { Text = mon.Ten + "\n" + mon.Gia.ToString("#,##0") + "đ", Width = 140, Height = 160, Margin = new Padding(10), BorderRadius = 10, FillColor = Color.FromArgb(40, 45, 50), ForeColor = Color.White, Font = new Font("Segoe UI", 10F, FontStyle.Bold), Tag = new { Ten = mon.Ten, Gia = mon.Gia } };
-                object imgObj = Properties.Resources.ResourceManager.GetObject(mon.TenHinh);
-                if (imgObj != null) { btnMon.Image = (Image)imgObj; btnMon.ImageSize = new Size(80, 80); btnMon.ImageAlign = HorizontalAlignment.Center; btnMon.TextAlign = HorizontalAlignment.Center; btnMon.ImageOffset = new Point(0, -20); btnMon.TextOffset = new Point(0, 35); }
+                Image img = (Image)Properties.Resources.ResourceManager.GetObject(mon.TenHinh);
+                flpMenu.Controls.Add(TaoNutMonAn(mon.Ten, mon.Gia, img));
+            }
 
-                int sizeNutNho = 30;
-                Guna2Button btnPlus = new Guna2Button() { Text = "+", Font = new Font("Arial", 12F, FontStyle.Bold), Width = sizeNutNho, Height = sizeNutNho, BorderRadius = sizeNutNho / 2, FillColor = Color.Transparent, UseTransparentBackground = true, BorderThickness = 1, BorderColor = Color.White, ForeColor = Color.White, Padding = new Padding(0), Visible = false, Location = new Point(btnMon.Width - sizeNutNho - 5, 15), Tag = btnMon };
-                Guna2Button btnMinus = new Guna2Button() { Text = "", Width = sizeNutNho, Height = sizeNutNho, BorderRadius = sizeNutNho / 2, FillColor = Color.Transparent, UseTransparentBackground = true, BorderThickness = 1, BorderColor = Color.White, Visible = false, Location = new Point(btnMon.Width - sizeNutNho - 5, btnPlus.Bottom + 5), Tag = btnMon };
-                btnMinus.Paint += (senderBtn, eventArgs) => { Graphics g = eventArgs.Graphics; g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias; using (Pen p = new Pen(Color.White, 2)) { int tamX = btnMinus.Width / 2; int tamY = btnMinus.Height / 2; g.DrawLine(p, tamX - 6, tamY, tamX + 6, tamY); } };
-
-                btnMon.MouseEnter += (s, e) => { btnPlus.Visible = btnMinus.Visible = true; };
-                btnMon.MouseLeave += (s, e) => { Point mousePos = btnMon.PointToClient(Cursor.Position); if (!btnMon.ClientRectangle.Contains(mousePos)) btnPlus.Visible = btnMinus.Visible = false; };
-
-                btnPlus.Click += TangSoLuong_Click; btnMinus.Click += GiamSoLuong_Click; btnMon.DoubleClick += (s, e) => { TangSoLuong_Click(btnPlus, e); };
-                btnMon.Controls.Add(btnPlus); btnMon.Controls.Add(btnMinus); flpMenu.Controls.Add(btnMon);
+            // 2. VẼ THÊM CÁC MÓN NGƯỜI DÙNG TỰ THÊM VÀO (TỪ BỘ NHỚ VĨNH CỬU)
+            foreach (var mon in danhSachMonTuThem)
+            {
+                if (mon.DanhMuc == danhMuc) // So sánh khớp 100% tên danh mục thì mới vẽ ra
+                {
+                    flpMenu.Controls.Add(TaoNutMonAn(mon.Ten, mon.Gia, mon.Hinh));
+                }
             }
         }
 
+        // HÀM VẼ GIAO DIỆN NÚT MÓN ĂN VÀ GIỎ HÀNG
+        private Guna2Button TaoNutMonAn(string ten, double gia, Image hinh)
+        {
+            Guna2Button btnMon = new Guna2Button()
+            {
+                Text = ten + "\n" + gia.ToString("#,##0") + "đ",
+                Width = 140,
+                Height = 160,
+                Margin = new Padding(10),
+                BorderRadius = 10,
+                FillColor = Color.FromArgb(40, 45, 50),
+                ForeColor = Color.White,
+                Font = new Font("Segoe UI", 10F, FontStyle.Bold),
+                Tag = new { Ten = ten, Gia = gia }
+            };
+
+            if (hinh != null)
+            {
+                btnMon.Image = hinh;
+                btnMon.ImageSize = new Size(80, 80);
+                btnMon.ImageAlign = HorizontalAlignment.Center;
+                btnMon.TextAlign = HorizontalAlignment.Center;
+                btnMon.ImageOffset = new Point(0, -20);
+                btnMon.TextOffset = new Point(0, 35);
+            }
+
+            int sizeNutNho = 30;
+            Guna2Button btnPlus = new Guna2Button() { Text = "+", Font = new Font("Arial", 12F, FontStyle.Bold), Width = sizeNutNho, Height = sizeNutNho, BorderRadius = sizeNutNho / 2, FillColor = Color.Transparent, UseTransparentBackground = true, BorderThickness = 1, BorderColor = Color.White, ForeColor = Color.White, Padding = new Padding(0), Visible = false, Location = new Point(btnMon.Width - sizeNutNho - 5, 15), Tag = btnMon };
+            Guna2Button btnMinus = new Guna2Button() { Text = "", Width = sizeNutNho, Height = sizeNutNho, BorderRadius = sizeNutNho / 2, FillColor = Color.Transparent, UseTransparentBackground = true, BorderThickness = 1, BorderColor = Color.White, Visible = false, Location = new Point(btnMon.Width - sizeNutNho - 5, btnPlus.Bottom + 5), Tag = btnMon };
+            btnMinus.Paint += (senderBtn, eventArgs) => { Graphics g = eventArgs.Graphics; g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias; using (Pen p = new Pen(Color.White, 2)) { int tamX = btnMinus.Width / 2; int tamY = btnMinus.Height / 2; g.DrawLine(p, tamX - 6, tamY, tamX + 6, tamY); } };
+
+            btnMon.MouseEnter += (s, e) => { btnPlus.Visible = btnMinus.Visible = true; };
+            btnMon.MouseLeave += (s, e) => { Point mousePos = btnMon.PointToClient(Cursor.Position); if (!btnMon.ClientRectangle.Contains(mousePos)) btnPlus.Visible = btnMinus.Visible = false; };
+
+            btnPlus.Click += TangSoLuong_Click; btnMinus.Click += GiamSoLuong_Click; btnMon.DoubleClick += (s, e) => { TangSoLuong_Click(btnPlus, e); };
+            btnMon.Controls.Add(btnPlus); btnMon.Controls.Add(btnMinus);
+
+            return btnMon;
+        }
+
+        // ==============================================================
+        // TÍNH NĂNG THÊM MÓN MỚI (LƯU VÀO BỘ NHỚ)
+        // ==============================================================
+        private void picUpHinh_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog open = new OpenFileDialog();
+            open.Filter = "Image Files(*.jpg; *.jpeg; *.gif; *.bmp; *.png)|*.jpg; *.jpeg; *.gif; *.bmp; *.png";
+            if (open.ShowDialog() == DialogResult.OK)
+            {
+                picUpHinh.Image = new Bitmap(open.FileName);
+                picUpHinh.SizeMode = PictureBoxSizeMode.Zoom;
+            }
+        }
+
+        private void btnThemMon_Click(object sender, EventArgs e)
+        {
+            string tenMon = txtTenMon.Text.Trim();
+            string danhMucChon = cmbDanhMuc.Text;
+
+            // Tự động quét tìm ô nhập giá (không cần biết ní đặt tên ID là gì, miễn nó ở đó)
+            double giaTien = 0;
+            foreach (Control ctrl in guna2GroupBox2.Controls)
+            {
+                if (ctrl is Guna2TextBox txt && txt != txtTenMon)
+                {
+                    double.TryParse(txt.Text, out giaTien);
+                    break;
+                }
+            }
+
+            if (string.IsNullOrEmpty(tenMon) || giaTien <= 0)
+            {
+                MessageBox.Show("Vui lòng nhập đủ Tên món và Giá tiền!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning); return;
+            }
+
+            // LƯU VÀO BỘ NHỚ VĨNH CỬU
+            danhSachMonTuThem.Add((tenMon, giaTien, danhMucChon, picUpHinh.Image));
+
+            // Chuyển màn hình sang đúng danh mục đó để hiển thị liền cho nhân viên coi
+            LoadMenuThucAn(danhMucChon);
+
+            // Dọn dẹp form để gõ món khác
+            txtTenMon.Clear();
+            foreach (Control ctrl in guna2GroupBox2.Controls) if (ctrl is Guna2TextBox txt && txt != txtTenMon) txt.Clear();
+            picUpHinh.Image = null;
+
+            MessageBox.Show($"Thêm món [{tenMon}] vào danh mục [{danhMucChon}] thành công!", "Hoàn tất", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        // ==============================================================
+        // XỬ LÝ GIỎ HÀNG & THANH TOÁN
+        // ==============================================================
         private void TangSoLuong_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(cmbSelectPC.Text)) { MessageBox.Show("Vui lòng chọn Máy (PC) trước khi gọi món!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning); cmbSelectPC.Focus(); return; }
@@ -151,9 +254,6 @@ namespace QuanLyQuanNet
             { dgvDonHang.Rows.Clear(); TinhTongTien(); }
         }
 
-        // ==============================================================
-        // ĐÃ XÓA LỆNH THOÁT FORM. CHỈ GHI NỢ VÀ XÓA GIỎ HÀNG
-        // ==============================================================
         private void btnThanhToan_Click_1(object sender, EventArgs e)
         {
             string pcThanhToan = cmbSelectPC.Text.Trim();
@@ -170,11 +270,9 @@ namespace QuanLyQuanNet
 
                     DataService db = new DataService();
 
-                    // CỘNG TIỀN VÀO CỘT TIỀN DỊCH VỤ CỦA MÁY
                     db.Execute("UPDATE TrangThaiMay SET TienDichVu = TienDichVu + @tien WHERE TenMay = @may",
                                 new MySqlParameter[] { new MySqlParameter("@tien", tongTienDonHang), new MySqlParameter("@may", pcThanhToan) });
 
-                    // GHI NỢ VÀO SỔ GIAO DỊCH
                     string sql = "INSERT INTO GiaoDich (ThoiGian, MoTa, ThanhVien, CuocPhi, ThanhToan, Nguon) VALUES (@time, @mota, @user, @phi, 0, 'Dịch Vụ (Đang nợ)')";
                     db.Execute(sql, new MySqlParameter[] {
                         new MySqlParameter("@time", DateTime.Now), new MySqlParameter("@mota", chiTietDon),
@@ -183,7 +281,6 @@ namespace QuanLyQuanNet
 
                     MessageBox.Show($"Đã Order thành công cho {pcThanhToan}!\nSố tiền {tongTienDonHang:#,##0}đ đã được cộng vào Bill của khách.", "Hoàn tất", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    // Chỉ xóa giỏ hàng để order tiếp, không đóng form nữa!
                     dgvDonHang.Rows.Clear();
                     TinhTongTien();
                 }
